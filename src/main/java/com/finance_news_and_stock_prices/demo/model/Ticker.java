@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.Instant;
 
 
 
@@ -33,6 +36,10 @@ public class Ticker {
 
     @Getter
     private String webUrl;
+
+    @Getter
+    @Setter
+    private Instant newsFetchedAt;
 
 
     public Ticker (String ticker, String companyName, String currency, String logoUrl, String webUrl){

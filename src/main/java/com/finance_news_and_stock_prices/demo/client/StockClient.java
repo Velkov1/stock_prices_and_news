@@ -48,10 +48,10 @@ public class StockClient {
         try{
             FinnhubProfileResponse response =  restClient.get()
                     .uri(uriBuilder ->uriBuilder
-                                    .path("stock/profile")
-                                    .queryParam("symbol", symbol)
-                                    .build()
-                            )
+                            .path("/stock/profile2")
+                            .queryParam("symbol", symbol)
+                            .build()
+                    )
                     .retrieve()
                     .body(FinnhubProfileResponse.class);
             return new StockProfileResponse(
@@ -72,7 +72,8 @@ public class StockClient {
         try{
             List<FinnhubSymbolResponse> responses = restClient.get()
                     .uri(uriBuilder -> uriBuilder
-                            .path("stock/symbol/?exchange=US")
+                            .path("/stock/symbol")
+                            .queryParam("exchange", "US")
                             .build()
                     )
                     .retrieve()
@@ -121,3 +122,4 @@ public class StockClient {
 
 
 }
+

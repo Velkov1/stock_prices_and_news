@@ -2,6 +2,7 @@ package com.finance_news_and_stock_prices.demo.service;
 
 import com.finance_news_and_stock_prices.demo.client.StockClient;
 import com.finance_news_and_stock_prices.demo.dto.stockResponses.*;
+import com.finance_news_and_stock_prices.demo.exception.ExternalApiException;
 import com.finance_news_and_stock_prices.demo.exception.NoSuchTickerException;
 import com.finance_news_and_stock_prices.demo.model.PriceSnapshot;
 import com.finance_news_and_stock_prices.demo.model.Ticker;
@@ -67,12 +68,20 @@ public class StockDataService {
                 .collect(Collectors.toSet());
         List<Ticker> newlyCreatedTickers = peers.stream()
                 .filter(s -> !foundSymbols.contains(s))
-                .map(tickerService::getOrCreateTicker)
+                .map(this::tryGetOrCreateTicker)
                 .filter(Objects::nonNull)
                 .toList();
         return Stream.concat(existingTickers.stream() , newlyCreatedTickers.stream())
                 .map(t -> new SummaryTickerDTO(t.getTicker(), t.getCompanyName()))
                 .toList();
+    }
+
+    private Ticker tryGetOrCreateTicker(String symbol){
+        try {
+            return tickerService.getOrCreateTicker(symbol);
+        } catch (ExternalApiException | NoSuchTickerException e) {
+            return null;
+        }
     }
 
     public List<InsiderTransactionsResponse> getInsiderTransactions(String symbol) {

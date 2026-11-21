@@ -19,8 +19,9 @@ public class TickerService {
     }
 
     public Ticker getOrCreateTicker(String symbol){
-        return tickerRepository.findByTicker(symbol)
-                .orElseGet(() -> fetchAndSaveTicker(symbol));
+        String normalizedSymbol = symbol.trim().toUpperCase();
+        return tickerRepository.findByTicker(normalizedSymbol)
+                .orElseGet(() -> fetchAndSaveTicker(normalizedSymbol));
     }
     private Ticker fetchAndSaveTicker(String symbol){
         StockProfileResponse stock = stockClient.getProfileData(symbol);

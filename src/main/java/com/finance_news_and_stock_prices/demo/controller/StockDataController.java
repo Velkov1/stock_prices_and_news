@@ -31,12 +31,12 @@ public class StockDataController {
     }
 
     @GetMapping("/{symbol}/peers")
-    public List<SummaryTickerDTO> getAllPeers(String symbol){
+    public List<SummaryTickerDTO> getAllPeers(@PathVariable String symbol){
         return stockDataService.getAllPeers(symbol);
     }
 
     @GetMapping("/{symbol}/insider-transactions")
-    public List<InsiderTransactionsResponse> getInsiderTransactions(String symbol){
+    public List<InsiderTransactionsResponse> getInsiderTransactions(@PathVariable String symbol){
         return stockDataService.getInsiderTransactions(symbol);
     }
 }

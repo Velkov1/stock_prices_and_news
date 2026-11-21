@@ -22,8 +22,11 @@ public class NewsItem {
     @JoinColumn(name = "ticker_id")
     private Ticker ticker;
 
+    @Column(length = 1000)
     private String headline;
+    @Column(length = 5000)
     private String body;
+    @Column(length = 2000)
     private String url;
     private String source;
 

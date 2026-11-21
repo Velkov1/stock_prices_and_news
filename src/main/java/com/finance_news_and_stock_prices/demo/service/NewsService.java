@@ -24,28 +24,31 @@ public class NewsService {
     private final NewsClient newsClient;
     private final TickerService tickerService;
     private final NewsItemRepository newsItemRepository;
+    private final TickerRepository tickerRepository;
 
-    public NewsService(NewsClient newsClient, TickerService tickerService, NewsItemRepository newsItemRepository) {
+    public NewsService(NewsClient newsClient, TickerService tickerService, NewsItemRepository newsItemRepository, TickerRepository tickerRepository) {
         this.newsClient = newsClient;
         this.tickerService = tickerService;
         this.newsItemRepository = newsItemRepository;
+        this.tickerRepository = tickerRepository;
     }
 
 
     public List<NewsItemDTO> getNewsForTicker(String symbol){
         Ticker ticker = tickerService.getOrCreateTicker(symbol);
         Instant cachedTime = Instant.now().minus(Duration.ofMinutes(30));
-        List<NewsItem> cashed = newsItemRepository.findByTickerTickerAndPublishedAtAfter(symbol, cachedTime);
-        if(!cashed.isEmpty()){
-            return cashed
+        if(ticker.getNewsFetchedAt() != null && ticker.getNewsFetchedAt().isAfter(cachedTime)){
+            return newsItemRepository.findByTickerTicker(ticker.getTicker())
                     .stream()
                     .map(this::toNewsItemDTO)
                     .toList();
         }
-        CompleteNewsResponse response = newsClient.getNewsForTicker(symbol);
+        CompleteNewsResponse response = newsClient.getNewsForTicker(ticker.getTicker());
         List<NewsItem> savedItems = response.getData().stream()
                 .map(article -> saveIfNew(article, ticker))
                 .toList();
+        ticker.setNewsFetchedAt(Instant.now());
+        tickerRepository.save(ticker);
         return savedItems.stream()
                 .map(this::toNewsItemDTO)
                 .toList();

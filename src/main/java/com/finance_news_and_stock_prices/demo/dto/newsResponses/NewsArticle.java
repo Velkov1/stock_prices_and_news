@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @AllArgsConstructor
@@ -27,5 +28,5 @@ public class NewsArticle {
     @JsonProperty("relevance_score")
     private Double relevanceScore;
     private List<NewsArticle> entites;
-    private List<String> similar;
+    private List<Map<String, Object>> similar;
 }

@@ -28,12 +28,12 @@ public class NewsController {
     }
 
     @GetMapping("/{symbol}/positive")
-    public List<NewsItemDTO> getPositiveNewsForTicker(String symbol){
+    public List<NewsItemDTO> getPositiveNewsForTicker(@PathVariable String symbol){
         return newsService.getPositiveNewsForTicker(symbol);
     }
 
     @GetMapping("/{symbol}/negative")
-    public List<NewsItemDTO> getNegativeNewsForTicker(String symbol){
+    public List<NewsItemDTO> getNegativeNewsForTicker(@PathVariable String symbol){
         return newsService.getNegativeNewsForTicker(symbol);
     }
 

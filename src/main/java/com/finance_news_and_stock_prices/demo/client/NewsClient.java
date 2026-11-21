@@ -41,9 +41,9 @@ public class NewsClient {
             return restClient.get()
                     .uri(uriBuilder -> uriBuilder
                             .path("/news/all")
-                            .queryParam("symbol", symbol)
+                            .queryParam("symbols", symbol)
                             .queryParam("language", "en")
-                            .queryParam("sentiment_gte", 0)
+                            .queryParam("sentiment_gte", 0.1)
                             .build())
                     .retrieve()
                     .body(CompleteNewsResponse.class);
@@ -56,9 +56,9 @@ public class NewsClient {
             return restClient.get()
                     .uri(uriBuilder -> uriBuilder
                             .path("/news/all")
-                            .queryParam("symbol", symbol)
+                            .queryParam("symbols", symbol)
                             .queryParam("language", "en")
-                            .queryParam("sentiment_lte", 0)
+                            .queryParam("sentiment_lte", -0.1)
                             .build())
                     .retrieve()
                     .body(CompleteNewsResponse.class);
