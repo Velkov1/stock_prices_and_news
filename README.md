@@ -39,6 +39,15 @@ NEWS (/api/news)
 - /search/{symbol}/stored : GET method that gives all stored news for a ticker
 
 
+3. Frontend
+- the frontend is built with React, TypeScript and Vite (completely built with Claude Code) and is located in the frontend folder
+- start the backend first, then run:
+  cd frontend
+  npm install
+  npm run dev
+
+- the frontend is available on http://localhost:5173 and sends all /api requests to the backend on port 8080
+
 
 
  
